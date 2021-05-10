@@ -29,7 +29,7 @@ class PictureOfDayRepository(
     suspend fun refreshPictureOfDay() {
         withContext(Dispatchers.IO) {
             val response = api.getPictureOfDay()
-            preference.setPOD(response.asPreferenceModel())
+            preference.setPictureOfDay(response.asPreferenceModel())
         }
     }
 }
