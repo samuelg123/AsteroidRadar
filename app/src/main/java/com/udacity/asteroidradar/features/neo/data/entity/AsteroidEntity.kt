@@ -2,13 +2,16 @@ package com.udacity.asteroidradar.features.neo.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.udacity.asteroidradar.features.neo.data.datasource.api.SIMPLE_FORMAT
+import com.udacity.asteroidradar.features.neo.data.datasource.api.formatted
 import com.udacity.asteroidradar.features.neo.domain.model.Asteroid
+import java.util.*
 
 @Entity(tableName = "asteroid")
 data class AsteroidEntity(
     @PrimaryKey val id: Long,
     val codename: String,
-    val closeApproachDate: String,
+    val closeApproachDate: Date?,
     val absoluteMagnitude: Double,
     val estimatedDiameter: Double,
     val relativeVelocity: Double,
@@ -21,7 +24,7 @@ fun List<AsteroidEntity>.asDomainModel(): List<Asteroid> {
         Asteroid(
             id = it.id,
             codename = it.codename,
-            closeApproachDate = it.closeApproachDate,
+            closeApproachDate = it.closeApproachDate?.formatted(SIMPLE_FORMAT) ?: "-",
             absoluteMagnitude = it.absoluteMagnitude,
             estimatedDiameter = it.estimatedDiameter,
             relativeVelocity = it.relativeVelocity,

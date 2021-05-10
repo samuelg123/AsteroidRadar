@@ -9,9 +9,12 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AsteroidDao {
-    @Query("select * from asteroid")
+    @Query("SELECT * FROM asteroid ORDER BY closeApproachDate ASC")
     fun getAsteroids(): Flow<List<AsteroidEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg asteroids: AsteroidEntity)
+    suspend fun insertAll(vararg asteroids: AsteroidEntity)
+
+    @Query("DELETE FROM asteroid WHERE closeApproachDate < DATE('now')")
+    suspend fun removeBeforeToday()
 }

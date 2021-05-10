@@ -11,7 +11,7 @@ data class PictureOfDayResponse(
     val explanation: String,
     val hdurl: String,
     @Json(name = "media_type") val mediaType: String,
-    val serviceVersion: String,
+    @Json(name = "service_version") val serviceVersion: String,
     val title: String,
     val url: String
 )

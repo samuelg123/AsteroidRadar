@@ -1,14 +1,20 @@
 package com.udacity.asteroidradar.features.neo.data.datasource.api.dto
 
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import com.udacity.asteroidradar.features.neo.data.datasource.api.SIMPLE_FORMAT
+import com.udacity.asteroidradar.features.neo.data.datasource.api.toDate
 import com.udacity.asteroidradar.features.neo.data.entity.AsteroidEntity
 import com.udacity.asteroidradar.features.neo.domain.model.Asteroid
-
 
 @JsonClass(generateAdapter = true)
 data class NeoResponse(
     val links: NeoResponseLinks,
+
+    @Json(name = "element_count")
     val elementCount: Long,
+
+    @Json(name = "near_earth_objects")
     val nearEarthObjects: Map<String, List<NearEarthObject>>
 )
 
@@ -23,24 +29,50 @@ data class NeoResponseLinks(
 data class NearEarthObject(
     val links: NearEarthObjectLinks,
     val id: String,
+
+    @Json(name = "neo_reference_id")
     val neoReferenceID: String,
+
     val name: String,
+
+    @Json(name = "nasa_jpl_url")
     val nasaJplURL: String,
+
+    @Json(name = "absolute_magnitude_h")
     val absoluteMagnitudeH: Double,
+
+    @Json(name = "estimated_diameter")
     val estimatedDiameter: EstimatedDiameter,
+
+    @Json(name = "is_potentially_hazardous_asteroid")
     val isPotentiallyHazardousAsteroid: Boolean,
+
+    @Json(name = "close_approach_data")
     val closeApproachData: List<CloseApproachDatum>,
+
+    @Json(name = "is_sentry_object")
     val isSentryObject: Boolean
 )
 
 @JsonClass(generateAdapter = true)
 data class CloseApproachDatum(
+    @Json(name = "close_approach_date")
     val closeApproachDate: String,
+
+    @Json(name = "close_approach_date_full")
     val closeApproachDateFull: String,
+
+    @Json(name = "epoch_date_close_approach")
     val epochDateCloseApproach: Long,
+
+    @Json(name = "relative_velocity")
     val relativeVelocity: RelativeVelocity,
+
+    @Json(name = "miss_distance")
     val missDistance: MissDistance,
-    val orbitingBody: OrbitingBody
+
+    @Json(name = "orbiting_body")
+    val orbitingBody: String
 )
 
 @JsonClass(generateAdapter = true)
@@ -52,21 +84,14 @@ data class MissDistance(
 )
 
 @JsonClass(generateAdapter = true)
-enum class OrbitingBody(val value: String) {
-    Earth("Earth");
-
-    companion object {
-        public fun fromValue(value: String): OrbitingBody = when (value) {
-            "Earth" -> Earth
-            else -> throw IllegalArgumentException()
-        }
-    }
-}
-
-@JsonClass(generateAdapter = true)
 data class RelativeVelocity(
+    @Json(name = "kilometers_per_second")
     val kilometersPerSecond: String,
+
+    @Json(name = "kilometers_per_hour")
     val kilometersPerHour: String,
+
+    @Json(name = "miles_per_hour")
     val milesPerHour: String
 )
 
@@ -80,7 +105,10 @@ data class EstimatedDiameter(
 
 @JsonClass(generateAdapter = true)
 data class Feet(
+    @Json(name = "estimated_diameter_min")
     val estimatedDiameterMin: Double,
+
+    @Json(name = "estimated_diameter_max")
     val estimatedDiameterMax: Double
 )
 
@@ -111,7 +139,7 @@ fun List<NearEarthObject>.asDatabaseModel(): Array<AsteroidEntity> {
         AsteroidEntity(
             id = it.id.toLong(),
             codename = it.name,
-            closeApproachDate = closeApproach.closeApproachDate,
+            closeApproachDate = closeApproach.closeApproachDate.toDate(SIMPLE_FORMAT),
             absoluteMagnitude = it.absoluteMagnitudeH,
             estimatedDiameter = it.estimatedDiameter.kilometers.estimatedDiameterMax,
             relativeVelocity = closeApproach.relativeVelocity.kilometersPerSecond.toDouble(),

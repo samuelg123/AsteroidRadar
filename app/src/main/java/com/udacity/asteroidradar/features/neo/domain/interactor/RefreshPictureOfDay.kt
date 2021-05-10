@@ -6,7 +6,8 @@ import com.udacity.asteroidradar.features.neo.data.repository.PictureOfDayReposi
 import com.udacity.asteroidradar.features.neo.domain.model.PictureOfDay
 import kotlinx.coroutines.flow.Flow
 import java.util.*
+import javax.inject.Inject
 
-class RefreshPictureOfDay(private val repository: PictureOfDayRepository) : UseCase() {
-    operator fun invoke(): Flow<PictureOfDay?> = repository.pictureOfDay
+class RefreshPictureOfDay @Inject constructor(val repository: PictureOfDayRepository) : UseCase() {
+    suspend operator fun invoke() = repository.refreshPictureOfDay()
 }

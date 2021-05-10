@@ -9,7 +9,7 @@ import okhttp3.Response
 class AuthInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val url: HttpUrl = chain.request()
-            .url()
+            .url
             .newBuilder()
             .addQueryParameter("api_key", BuildConfig.nasaApiKey)
             .build()

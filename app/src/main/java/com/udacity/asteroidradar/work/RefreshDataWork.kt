@@ -27,10 +27,22 @@ import com.udacity.asteroidradar.features.neo.data.repository.AsteroidRepository
 import com.udacity.asteroidradar.features.neo.data.repository.PictureOfDayRepository
 import com.udacity.asteroidradar.features.neo.domain.interactor.RefreshListAsteroid
 import com.udacity.asteroidradar.features.neo.domain.interactor.RefreshPictureOfDay
+import com.udacity.asteroidradar.features.neo.domain.interactor.RemoveListAsteroidBeforeToday
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class RefreshDataWorker(appContext: Context, params: WorkerParameters) :
-    CoroutineWorker(appContext, params) {
+class RefreshDataWorker(
+    appContext: Context,
+    params: WorkerParameters
+) : CoroutineWorker(appContext, params) {
+    @Inject
+    lateinit var refreshListAsteroid: RefreshListAsteroid
+
+    @Inject
+    lateinit var refreshPictureOfDay: RefreshPictureOfDay
+
+    @Inject
+    lateinit var removeListAsteroidBeforeToday: RemoveListAsteroidBeforeToday
 
     companion object {
         const val WORK_NAME = "RefreshDataWorker"
@@ -44,16 +56,10 @@ class RefreshDataWorker(appContext: Context, params: WorkerParameters) :
      *
      */
     override suspend fun doWork(): Result {
-        val database = AppDatabase.getInstance(applicationContext)
-        val preference = PictureOfDayPreference.getInstance(applicationContext)
-        val nasaApiService = NasaApi.retrofitService
-        val asteroidRepository = AsteroidRepository(database, nasaApiService)
-        val podRepository = PictureOfDayRepository(preference, nasaApiService)
-        val refreshListAsteroid = RefreshListAsteroid(asteroidRepository)
-        val refreshPictureOfDay = RefreshPictureOfDay(podRepository)
         return try {
             refreshListAsteroid()
             refreshPictureOfDay()
+            removeListAsteroidBeforeToday()
             Result.success()
         } catch (e: HttpException) {
             Result.retry()
