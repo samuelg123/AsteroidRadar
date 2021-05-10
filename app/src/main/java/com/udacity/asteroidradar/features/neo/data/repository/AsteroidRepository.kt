@@ -16,35 +16,38 @@ import java.util.*
 import javax.inject.Inject
 
 class AsteroidRepository @Inject constructor(
-   val database: AppDatabase,
-   val api: NasaApiService,
+    val database: AppDatabase,
+    val api: NasaApiService,
 ) {
 
     /**
-     *
+     * Get asteroids starting from today onwards.
      */
     val asteroids: Flow<List<Asteroid>> =
-        database.asteroidDao.getAsteroids().map {
+        database.asteroidDao.getAsteroids(startFrom = Date()).map {
             it.asDomainModel()
         }
 
     /**
-     *
+     * Refresh asteroids data between today and the next 7 days
      */
     suspend fun refreshAsteroids(
         startDate: Date, endDate: Date
     ) {
         withContext(Dispatchers.IO) {
-            val response = api.getNeo(startDate.formatted(SIMPLE_FORMAT), endDate.formatted(SIMPLE_FORMAT)).await()
+            val response =
+                api.getNeo(startDate.formatted(SIMPLE_FORMAT), endDate.formatted(SIMPLE_FORMAT))
+                    .await()
             val asteroids = response.nearEarthObjects.values.flatten()
             database.asteroidDao.insertAll(*asteroids.asDatabaseModel())
         }
     }
 
 
-    suspend fun removeAsteroidsBeforeToday() {
-        withContext(Dispatchers.IO) {
-            database.asteroidDao.removeBeforeToday()
-        }
-    }
+    /**
+     * Remove asteroids before today
+     */
+    suspend fun removeAsteroidsBeforeToday() =
+        database.asteroidDao.removeBeforeToday()
+
 }
