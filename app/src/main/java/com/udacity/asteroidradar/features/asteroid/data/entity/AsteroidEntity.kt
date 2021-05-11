@@ -2,8 +2,7 @@ package com.udacity.asteroidradar.features.asteroid.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.udacity.asteroidradar.features.asteroid.data.datasource.api.formatted
-import com.udacity.asteroidradar.features.asteroid.data.datasource.api.toIso8601String
+import com.udacity.asteroidradar.core.datasource.formatted
 import com.udacity.asteroidradar.features.asteroid.domain.model.Asteroid
 import java.util.*
 
