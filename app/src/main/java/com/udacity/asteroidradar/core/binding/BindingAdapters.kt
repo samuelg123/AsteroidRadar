@@ -1,4 +1,4 @@
-package com.udacity.asteroidradar
+package com.udacity.asteroidradar.core.binding
 
 import android.graphics.drawable.Drawable
 import android.view.View
@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.core.viewmodel.Status
 import com.udacity.asteroidradar.features.asteroid.domain.model.Asteroid
 import com.udacity.asteroidradar.features.asteroid.presentation.adapter.AsteroidAdapter

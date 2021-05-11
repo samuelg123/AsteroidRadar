@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.udacity.asteroidradar.core.datasource.Converters
 import com.udacity.asteroidradar.features.asteroid.data.datasource.database.AsteroidDao
 import com.udacity.asteroidradar.features.asteroid.data.entity.AsteroidEntity
 

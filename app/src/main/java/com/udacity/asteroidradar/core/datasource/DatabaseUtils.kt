@@ -1,4 +1,4 @@
-package com.udacity.asteroidradar
+package com.udacity.asteroidradar.core.datasource
 
 import androidx.room.TypeConverter
 import java.util.*

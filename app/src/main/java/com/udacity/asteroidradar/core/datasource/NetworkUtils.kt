@@ -1,4 +1,4 @@
-package com.udacity.asteroidradar.features.asteroid.data.datasource.api
+package com.udacity.asteroidradar.core.datasource
 
 import com.squareup.moshi.*
 import com.udacity.asteroidradar.Constants
@@ -8,7 +8,6 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.time.format.ResolverStyle

@@ -2,10 +2,9 @@ package com.udacity.asteroidradar.features.asteroid.data.datasource.api.dto
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import com.udacity.asteroidradar.features.asteroid.data.datasource.api.toDate
+import com.udacity.asteroidradar.core.datasource.toDate
 import com.udacity.asteroidradar.features.asteroid.data.entity.AsteroidEntity
 import com.udacity.asteroidradar.features.asteroid.domain.model.Asteroid
-import java.time.format.DateTimeFormatter
 
 @JsonClass(generateAdapter = true)
 data class NeoResponse(
