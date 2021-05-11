@@ -18,26 +18,25 @@
 package com.udacity.asteroidradar.work
 
 import android.content.Context
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.udacity.asteroidradar.features.asteroid.domain.interactor.RefreshListAsteroid
 import com.udacity.asteroidradar.features.asteroid.domain.interactor.RefreshPictureOfDay
 import com.udacity.asteroidradar.features.asteroid.domain.interactor.RemoveListAsteroidBeforeToday
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import retrofit2.HttpException
-import javax.inject.Inject
+import timber.log.Timber
 
-class RefreshDataWorker(
-    appContext: Context,
-    params: WorkerParameters
+@HiltWorker
+class RefreshDataWorker @AssistedInject constructor(
+    @Assisted appContext: Context,
+    @Assisted params: WorkerParameters,
+    val refreshListAsteroid: RefreshListAsteroid,
+    val refreshPictureOfDay: RefreshPictureOfDay,
+    val removeListAsteroidBeforeToday: RemoveListAsteroidBeforeToday,
 ) : CoroutineWorker(appContext, params) {
-    @Inject
-    lateinit var refreshListAsteroid: RefreshListAsteroid
-
-    @Inject
-    lateinit var refreshPictureOfDay: RefreshPictureOfDay
-
-    @Inject
-    lateinit var removeListAsteroidBeforeToday: RemoveListAsteroidBeforeToday
 
     companion object {
         const val WORK_NAME = "RefreshDataWorker"
@@ -55,8 +54,10 @@ class RefreshDataWorker(
             refreshListAsteroid()
             refreshPictureOfDay()
             removeListAsteroidBeforeToday()
+            Timber.d("Refresh data success")
             Result.success()
         } catch (e: HttpException) {
+            Timber.d("Refresh data failed")
             Result.retry()
         }
     }

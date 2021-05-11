@@ -10,7 +10,7 @@ import java.util.*
 data class AsteroidEntity(
     @PrimaryKey val id: Long,
     val codename: String,
-    val closeApproachDate: Date?,
+    val closeApproachDate: Date,
     val absoluteMagnitude: Double,
     val estimatedDiameter: Double,
     val relativeVelocity: Double,
@@ -23,7 +23,7 @@ fun List<AsteroidEntity>.asDomainModel(): List<Asteroid> {
         Asteroid(
             id = it.id,
             codename = it.codename,
-            closeApproachDate = it.closeApproachDate?.formatted("yyyy-MM-dd") ?: "",
+            closeApproachDate = it.closeApproachDate.formatted("yyyy-MM-dd XXX"),
             absoluteMagnitude = it.absoluteMagnitude,
             estimatedDiameter = it.estimatedDiameter,
             relativeVelocity = it.relativeVelocity,

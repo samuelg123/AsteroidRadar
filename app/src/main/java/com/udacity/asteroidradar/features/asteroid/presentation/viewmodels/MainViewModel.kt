@@ -7,10 +7,7 @@ import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.core.helper.coroutineCtx
 import com.udacity.asteroidradar.core.viewmodel.BaseViewModel
 import com.udacity.asteroidradar.core.viewmodel.Status
-import com.udacity.asteroidradar.features.asteroid.domain.interactor.GetListAsteroid
-import com.udacity.asteroidradar.features.asteroid.domain.interactor.GetPictureOfDay
-import com.udacity.asteroidradar.features.asteroid.domain.interactor.RefreshListAsteroid
-import com.udacity.asteroidradar.features.asteroid.domain.interactor.RefreshPictureOfDay
+import com.udacity.asteroidradar.features.asteroid.domain.interactor.*
 import com.udacity.asteroidradar.features.asteroid.domain.model.Asteroid
 import com.udacity.asteroidradar.features.asteroid.domain.model.PictureOfDay
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,6 +27,7 @@ class MainViewModel @Inject constructor(
     val refreshPictureOfDay: RefreshPictureOfDay,
     val getPictureOfDay: GetPictureOfDay,
     val getListAsteroid: GetListAsteroid,
+    val removeListAsteroidBeforeToday: RemoveListAsteroidBeforeToday,
 ) : BaseViewModel() {
 
     init {
@@ -38,6 +36,7 @@ class MainViewModel @Inject constructor(
                 viewModelStatus.value = Status.LOADING
                 refreshPictureOfDay()
                 refreshListAsteroid()
+                removeListAsteroidBeforeToday()
                 viewModelStatus.value = Status.DONE
             } catch (e: Exception) {
                 viewModelStatus.value = Status.ERROR

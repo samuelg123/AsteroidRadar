@@ -2,6 +2,7 @@ package com.udacity.asteroidradar.features.asteroid.data.datasource.api.dto
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.core.datasource.toDate
 import com.udacity.asteroidradar.features.asteroid.data.entity.AsteroidEntity
 import com.udacity.asteroidradar.features.asteroid.domain.model.Asteroid
@@ -138,7 +139,7 @@ fun List<NearEarthObject>.asDatabaseModel(): Array<AsteroidEntity> {
         AsteroidEntity(
             id = it.id.toLong(),
             codename = it.name,
-            closeApproachDate = closeApproach.closeApproachDate.toDate(format = "yyyy-MM-dd"),
+            closeApproachDate = closeApproach.closeApproachDate.toDate(format = Constants.API_QUERY_DATE_FORMAT),
             absoluteMagnitude = it.absoluteMagnitudeH,
             estimatedDiameter = it.estimatedDiameter.kilometers.estimatedDiameterMax,
             relativeVelocity = closeApproach.relativeVelocity.kilometersPerSecond.toDouble(),

@@ -8,7 +8,7 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneOffset
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.ResolverStyle
 import java.time.temporal.TemporalAccessor
@@ -111,19 +111,23 @@ fun String.toDate(format: String): Date {
         DateTimeFormatter.ofPattern(format)
             .withResolverStyle(ResolverStyle.SMART)
     val dt = LocalDate.parse(this, formatter).atStartOfDay()
-    return Date.from(dt.toInstant(ZoneOffset.UTC))
+//    return Date.from(dt.toInstant(ZoneOffset.UTC))
+    val instant = Instant.from(dt)
+    return Date.from(instant)
 }
 
 fun Date.toIso8601String(): String =
     DateTimeFormatter.ISO_DATE_TIME
         .withLocale(Locale.getDefault())
-        .withZone(ZoneOffset.UTC)
+//        .withZone(ZoneOffset.UTC)
+        .withZone(ZoneId.systemDefault())
         .format(this.toInstant())
 
 fun Date.formatted(format: String): String =
     DateTimeFormatter.ofPattern(format)
         .withLocale(Locale.getDefault())
-        .withZone(ZoneOffset.UTC)
+//        .withZone(ZoneOffset.UTC)
+        .withZone(ZoneId.systemDefault())
         .format(this.toInstant())
 
 //fun Date.formatted(format: String = ISO8601_FORMAT): String =
