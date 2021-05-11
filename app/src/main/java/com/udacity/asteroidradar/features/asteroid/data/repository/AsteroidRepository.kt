@@ -22,9 +22,13 @@ class AsteroidRepository @Inject constructor(
      * Get asteroids starting from today onwards.
      */
     val asteroids: Flow<List<Asteroid>> =
-        database.asteroidDao.getAsteroids(startFrom = Date()).map {
+        database.asteroidDao.getAsteroids(startFrom = today()).map {
             it.asDomainModel()
         }
+
+    private fun today() = Calendar.getInstance().apply {
+        set(Calendar.HOUR_OF_DAY, 0) // Zeroing time. Only take date.
+    }.time
 
     /**
      * Refresh asteroids data between today and the next 7 days
