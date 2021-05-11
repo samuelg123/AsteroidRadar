@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.udacity.asteroidradar.features.neo.presentation.viewmodels.MainViewModel" />
+            type="com.udacity.asteroidradar.features.asteroid.presentation.viewmodels.MainViewModel" />
 
     </data>
 

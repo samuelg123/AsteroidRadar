@@ -20,14 +20,9 @@ package com.udacity.asteroidradar.work
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.udacity.asteroidradar.AppDatabase
-import com.udacity.asteroidradar.features.neo.data.datasource.api.NasaApi
-import com.udacity.asteroidradar.features.neo.data.datasource.preference.PictureOfDayPreference
-import com.udacity.asteroidradar.features.neo.data.repository.AsteroidRepository
-import com.udacity.asteroidradar.features.neo.data.repository.PictureOfDayRepository
-import com.udacity.asteroidradar.features.neo.domain.interactor.RefreshListAsteroid
-import com.udacity.asteroidradar.features.neo.domain.interactor.RefreshPictureOfDay
-import com.udacity.asteroidradar.features.neo.domain.interactor.RemoveListAsteroidBeforeToday
+import com.udacity.asteroidradar.features.asteroid.domain.interactor.RefreshListAsteroid
+import com.udacity.asteroidradar.features.asteroid.domain.interactor.RefreshPictureOfDay
+import com.udacity.asteroidradar.features.asteroid.domain.interactor.RemoveListAsteroidBeforeToday
 import retrofit2.HttpException
 import javax.inject.Inject
 
