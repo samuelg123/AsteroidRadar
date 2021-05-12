@@ -106,21 +106,19 @@ fun String.toDate(): Date {
     return Date.from(i)
 }
 
-fun String.toDate(format: String): Date {
+fun String.toDate(format: String, zoneId: ZoneId = ZoneId.systemDefault()): Date {
     val formatter: DateTimeFormatter =
         DateTimeFormatter.ofPattern(format)
             .withResolverStyle(ResolverStyle.SMART)
-    val dt = LocalDate.parse(this, formatter).atStartOfDay()
-//    return Date.from(dt.toInstant(ZoneOffset.UTC))
-    val instant = Instant.from(dt)
-    return Date.from(instant)
+    val dt = LocalDate.parse(this, formatter).atStartOfDay(zoneId).toInstant()
+    return Date.from(dt)
 }
 
-fun Date.toIso8601String(): String =
+fun Date.toIso8601String(zoneId: ZoneId = ZoneId.systemDefault()): String =
     DateTimeFormatter.ISO_DATE_TIME
         .withLocale(Locale.getDefault())
 //        .withZone(ZoneOffset.UTC)
-        .withZone(ZoneId.systemDefault())
+        .withZone(zoneId)
         .format(this.toInstant())
 
 fun Date.formatted(format: String): String =

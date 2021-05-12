@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import java.time.ZoneOffset
 import java.util.*
 import javax.inject.Inject
 
@@ -39,8 +40,8 @@ class AsteroidRepository @Inject constructor(
         withContext(Dispatchers.IO) {
             val response =
                 api.getNeo(
-                    startDate.toIso8601String(),
-                    endDate.toIso8601String()
+                    startDate.toIso8601String(ZoneOffset.UTC),
+                    endDate.toIso8601String(ZoneOffset.UTC)
                 ).await()
             val asteroids = response.nearEarthObjects.values.flatten()
             database.asteroidDao.insertAll(*asteroids.asDatabaseModel())

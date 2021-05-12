@@ -6,6 +6,7 @@ import com.udacity.asteroidradar.Constants
 import com.udacity.asteroidradar.core.datasource.toDate
 import com.udacity.asteroidradar.features.asteroid.data.entity.AsteroidEntity
 import com.udacity.asteroidradar.features.asteroid.domain.model.Asteroid
+import java.time.ZoneOffset
 
 @JsonClass(generateAdapter = true)
 data class NeoResponse(
@@ -139,7 +140,10 @@ fun List<NearEarthObject>.asDatabaseModel(): Array<AsteroidEntity> {
         AsteroidEntity(
             id = it.id.toLong(),
             codename = it.name,
-            closeApproachDate = closeApproach.closeApproachDate.toDate(format = Constants.API_QUERY_DATE_FORMAT),
+            closeApproachDate = closeApproach.closeApproachDate.toDate(
+                format = Constants.API_QUERY_DATE_FORMAT,
+                zoneId = ZoneOffset.UTC,
+            ),
             absoluteMagnitude = it.absoluteMagnitudeH,
             estimatedDiameter = it.estimatedDiameter.kilometers.estimatedDiameterMax,
             relativeVelocity = closeApproach.relativeVelocity.kilometersPerSecond.toDouble(),

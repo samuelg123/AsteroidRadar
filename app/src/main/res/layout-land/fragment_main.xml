@@ -33,7 +33,7 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@{viewModel.pictureOfDayTitle}"
                 android:scaleType="centerCrop"
-                app:error="@{@drawable/ic_broken_image}"
+                app:error="@{@drawable/padded_broken_image}"
                 app:imageUrl="@{viewModel.pictureOfDay.url}"
                 app:layout_constraintWidth_percent="0.7"
                 tools:srcCompat="@drawable/placeholder_picture_of_day" />

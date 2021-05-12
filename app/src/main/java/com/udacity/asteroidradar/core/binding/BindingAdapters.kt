@@ -59,7 +59,11 @@ fun RecyclerView.bindAsteroids(data: List<Asteroid>?) {
 
 @BindingAdapter("imageUrl", "error")
 fun loadImage(view: ImageView, url: String?, error: Drawable) {
-    Picasso.get().load(url).error(error).into(view)
+    Picasso.get()
+        .load(url)
+        .placeholder(R.drawable.placeholder_picture_of_day)
+        .error(error)
+        .into(view)
 }
 
 @BindingAdapter("viewModelStatus")
