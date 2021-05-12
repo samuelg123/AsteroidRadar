@@ -6,7 +6,6 @@ import com.udacity.asteroidradar.features.asteroid.data.entity.PictureOfDayEntit
 
 @JsonClass(generateAdapter = true)
 data class PictureOfDayResponse(
-    val copyright: String,
     val date: String,
     val explanation: String,
     val hdurl: String,
